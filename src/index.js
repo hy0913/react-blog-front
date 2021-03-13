@@ -1,6 +1,7 @@
 import React from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
+import Router from "./router";
 
 const root = document.getElementById("container");
 
-ReactDOM.render(<div>初始化成功</div>, root);
+ReactDOM.render(<Router></Router>, root);
