@@ -1,7 +1,10 @@
 import React from 'react';
 
+
 const Blog = () => {
-    return <div>it is blog</div>
+    return <div className='blog-wrapper'>
+            111
+    </div>
 }
 
 export default Blog;
