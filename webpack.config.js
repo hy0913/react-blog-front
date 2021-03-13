@@ -1,6 +1,7 @@
 const miniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -24,6 +25,16 @@ const config = {
           loader: "babel-loader",
           options: {
             presets: [["@babel/preset-env"], ["@babel/preset-react"]],
+            plugins: [
+              [
+                "import",
+                {
+                  libraryName: "antd",
+                  libraryDirectory: "lib",
+                  style: "css",
+                },
+              ],
+            ],
           },
         },
       },
@@ -34,10 +45,21 @@ const config = {
             loader: miniCssExtractPlugin.loader,
           },
           {
-            loader: "babel-loader",
+            loader: "css-loader",
           },
           {
             loader: "less-loader",
+          },
+        ],
+      },
+      {
+        test: /\.(css$)/,
+        use: [
+          {
+            loader: miniCssExtractPlugin.loader,
+          },
+          {
+            loader: "css-loader",
           },
         ],
       },
@@ -48,6 +70,7 @@ const config = {
       template: "./view/index.html",
       filename: "./index.html",
     }),
+    new MiniCssExtractPlugin(),
   ],
   devServer: {
     hot: true,
