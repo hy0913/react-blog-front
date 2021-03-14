@@ -4,11 +4,13 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = {
+  devtool:'inline-cheap-source-map',
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
   entry: "./src/index.js",
   output: {
     filename: "bundle.js",
     path: path.resolve("build"),
+    // publicPath: './build/'
   },
   resolve: {
     extensions: [".js", ".jsx", ".json"],
@@ -63,6 +65,19 @@ const config = {
           },
         ],
       },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+            {
+                loader: 'url-loader',
+                //当加载的图片小于limit时，会直接用url-loader将图片的格式编译成base64格式的
+                //当加载图片大于limit时，需要使用file-loader来编译，并且打包到dist文件夹下面
+                options: {
+                    // limit: 16000,
+                }
+            }
+        ]
+      }
     ],
   },
   plugins: [
