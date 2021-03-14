@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "antd";
+import axios from "axios";
 import "./index.less";
 
 const Blog = () => {
-  const location = () => {
-    window.location.hash = "/content";
+  const [articleList, setArticleList] = useState([]);
+  useEffect(() => {
+    axios.get("http://127.0.0.1:7001/article/list/get").then(({ data }) => {
+      if (data.code === 200) {
+        setArticleList(data.data);
+      }
+    });
+  }, []);
+  const location = (id) => {
+    window.location.hash = `/content?id=${id}`;
   };
   return (
     <div className="blog-wrapper">
@@ -16,33 +25,24 @@ const Blog = () => {
         </div>
       </div>
       <div className="article">
-        <div className="article-item">
-          <div className="article-title">这是标题标题标题</div>
-          <p className="article-content">
-            这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容
-          </p>
-          <div className="operate">
-            <Button onClick={location}>阅读全文</Button>
-          </div>
-        </div>
-        <div className="article-item">
-          <div className="article-title">这是标题标题标题</div>
-          <p className="article-content">
-            这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容
-          </p>
-          <div className="operate">
-            <Button>阅读全文</Button>
-          </div>
-        </div>
-        <div className="article-item">
-          <div className="article-title">这是标题标题标题</div>
-          <p className="article-content">
-            这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容
-          </p>
-          <div className="operate">
-            <Button>阅读全文</Button>
-          </div>
-        </div>
+        {articleList &&
+          articleList.map((art) => {
+            return (
+              <div className="article-item" key={art.id}>
+                <div className="article-title">{art.title}</div>
+                <p className="article-content">{art.content}</p>
+                <div className="operate">
+                  <Button
+                    onClick={() => {
+                      location(art.id);
+                    }}
+                  >
+                    阅读全文
+                  </Button>
+                </div>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
