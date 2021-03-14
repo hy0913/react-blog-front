@@ -9,7 +9,7 @@ const config = {
   entry: "./src/index.js",
   output: {
     filename: "bundle.js",
-    path: path.resolve("build"),
+    path: path.resolve("dist"),
     // publicPath: './build/'
   },
   resolve: {
@@ -73,7 +73,7 @@ const config = {
                 //当加载的图片小于limit时，会直接用url-loader将图片的格式编译成base64格式的
                 //当加载图片大于limit时，需要使用file-loader来编译，并且打包到dist文件夹下面
                 options: {
-                    // limit: 16000,
+                    limit: 16000,
                 }
             }
         ]
